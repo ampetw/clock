@@ -1,141 +1,167 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CSS Analog Clock</title>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CSS Analog Clock</title>
-<style>
-  body {
-    margin: 0;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: #1e1e1e;
-    font-family: sans-serif;
-  }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSS Analog Clock</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #b0b0b0;
+      font-family: sans-serif;
+    }
 
-  .clock {
-    width: 300px;
-    height: 300px;
-    border: 8px solid rgba(255, 255, 255, 0.5);
-    border-radius: 50%;
-    position: relative;
-    background: rgba(255, 255, 255, 0.05);
-    box-shadow: 0 0 30px rgba(0,0,0,0.5);
-  }
+    .clock {
+      width: 320px;
+      height: 320px;
+      border-radius: 50%;
+      position: relative;
+      background: #000;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
 
-  .hand {
-    width: 50%;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform-origin: 100%;
-    transform: rotate(90deg);
-    border-radius: 4px;
-  }
+    /* Hour marker circles around the edge */
+    .hour-marker {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #F8F8DC;
+      transform: translate(-50%, -50%);
+      top: 50%;
+      left: 50%;
+    }
 
-  .hour {
-    height: 6px;
-    background: #fff;
-    animation: rotateHour 43200s linear infinite; /* 12 hours */
-  }
+    /* Position each of the 12 circles (12 at top, then 1–11 going clockwise) */
+    .hour-marker:nth-child(1)  { transform: translate(-50%, -50%) translate(0, -140px); }      /* 12 */
+    .hour-marker:nth-child(2)  { transform: translate(-50%, -50%) translate(70px, -121px); }   /* 1 */
+    .hour-marker:nth-child(3)  { transform: translate(-50%, -50%) translate(121px, -70px); }   /* 2 */
+    .hour-marker:nth-child(4)  { transform: translate(-50%, -50%) translate(140px, 0); }       /* 3 */
+    .hour-marker:nth-child(5)  { transform: translate(-50%, -50%) translate(121px, 70px); }    /* 4 */
+    .hour-marker:nth-child(6)  { transform: translate(-50%, -50%) translate(70px, 121px); }    /* 5 */
+    .hour-marker:nth-child(7)  { transform: translate(-50%, -50%) translate(0, 140px); }       /* 6 */
+    .hour-marker:nth-child(8)  { transform: translate(-50%, -50%) translate(-70px, 121px); }   /* 7 */
+    .hour-marker:nth-child(9)  { transform: translate(-50%, -50%) translate(-121px, 70px); }  /* 8 */
+    .hour-marker:nth-child(10) { transform: translate(-50%, -50%) translate(-140px, 0); }     /* 9 */
+    .hour-marker:nth-child(11) { transform: translate(-50%, -50%) translate(-121px, -70px); } /* 10 */
+    .hour-marker:nth-child(12) { transform: translate(-50%, -50%) translate(-70px, -121px); } /* 11 */
 
-  .minute {
-    height: 4px;
-    background: #ccc;
-    animation: rotateMinute 3600s linear infinite; /* 60 minutes */
-  }
+    .hour-marker.active {
+      background: #e53935;
+    }
 
-  .second {
-    height: 2px;
-    background: red;
-    animation: rotateSecond 60s linear infinite; /* 60 seconds */
-  }
+    /* Minutes display in center of black circle */
+    .minutes-display {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: #fff;
+      font-size: 4rem;
+      font-weight: 300;
+      letter-spacing: 0.02em;
+      min-width: 1.2em;
+      text-align: center;
+    }
 
-  .center {
-    width: 14px;
-    height: 14px;
-    background: #fff;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    border-radius: 50%;
-    z-index: 10;
-  }
+    /* Wrapper to hold clock + orbiting seconds circle */
+    .clock-wrapper {
+      position: relative;
+      width: 360px;
+      height: 360px;
+    }
 
-  /* Numbers */
-  .number {
-    position: absolute;
-    width: 30px;
-    height: 30px;
-    text-align: center;
-    font-weight: bold;
-    color: rgba(255, 255, 255, 0.7);
-    transform: translate(-50%, -50%);
-    font-size: 1.1em;
-  }
+    .clock {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      margin-left: -160px;
+      margin-top: -160px;
+    }
 
-  /* Number positions */
-  .number1  { top: 20%; left: 50% + 40px; }
-  .number2  { top: 32%; left: 78%; }
-  .number3  { top: 50%; left: 88%; }
-  .number4  { top: 68%; left: 78%; }
-  .number5  { top: 80%; left: 50%; }
-  .number6  { top: 68%; left: 22%; }
-  .number7  { top: 50%; left: 12%; }
-  .number8  { top: 32%; left: 22%; }
-  .number9  { top: 12%; left: 50%; }
-  .number10 { top: 20%; left: 22%; }
-  .number11 { top: 32%; left: 78%; }
-  .number12 { top: 12%; left: 50%; }
+    /* Blue circle orbit (one loop = 60 seconds) */
+    .seconds-orbit {
+      position: absolute;
+      width: 340px;
+      height: 340px;
+      left: 50%;
+      top: 50%;
+      margin-left: -170px;
+      margin-top: -170px;
+      animation: orbit 60s linear infinite;
+    }
 
-  /* Animations */
-  @keyframes rotateSecond {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
+    .seconds-dot {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #1976d2;
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      box-shadow: 0 0 6px rgba(25, 118, 210, 0.6);
+    }
 
-  @keyframes rotateMinute {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
-
-  @keyframes rotateHour {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
-
-</style>
+    @keyframes orbit {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+  </style>
 </head>
 <body>
 
-<div class="clock">
-  <div class="hand hour"></div>
-  <div class="hand minute"></div>
-  <div class="hand second"></div>
-  <div class="center"></div>
+  <div class="clock-wrapper">
+  <div class="clock" id="clock">
+    <div class="hour-marker" data-hour="12"></div>
+    <div class="hour-marker" data-hour="1"></div>
+    <div class="hour-marker" data-hour="2"></div>
+    <div class="hour-marker" data-hour="3"></div>
+    <div class="hour-marker" data-hour="4"></div>
+    <div class="hour-marker" data-hour="5"></div>
+    <div class="hour-marker" data-hour="6"></div>
+    <div class="hour-marker" data-hour="7"></div>
+    <div class="hour-marker" data-hour="8"></div>
+    <div class="hour-marker" data-hour="9"></div>
+    <div class="hour-marker" data-hour="10"></div>
+    <div class="hour-marker" data-hour="11"></div>
 
-  <div class="number number1">1</div>
-  <div class="number number2">2</div>
-  <div class="number number3">3</div>
-  <div class="number number4">4</div>
-  <div class="number number5">5</div>
-  <div class="number number6">6</div>
-  <div class="number number7">7</div>
-  <div class="number number8">8</div>
-  <div class="number number9">9</div>
-  <div class="number number10">10</div>
-  <div class="number number11">11</div>
-  <div class="number number12">12</div>
-</div>
+    <div class="minutes-display" id="minutes">00</div>
+  </div>
+
+  <div class="seconds-orbit" id="secondsOrbit">
+    <div class="seconds-dot"></div>
+  </div>
+  </div>
+
+  <script>
+    const markers = document.querySelectorAll('.hour-marker');
+    const minutesEl = document.getElementById('minutes');
+    const secondsOrbit = document.getElementById('secondsOrbit');
+
+    // Sync blue circle orbit to current second (one loop = 60s)
+    secondsOrbit.style.animationDelay = `-${new Date().getSeconds()}s`;
+
+    function updateClock() {
+      const now = new Date();
+      const hours = now.getHours();
+      const minutes = now.getMinutes();
+      const hour12 = hours % 12 || 12;
+
+      markers.forEach(m => m.classList.remove('active'));
+      const active = document.querySelector(`.hour-marker[data-hour="${hour12}"]`);
+      if (active) active.classList.add('active');
+
+      minutesEl.textContent = String(minutes).padStart(2, '0');
+    }
+
+    updateClock();
+    setInterval(updateClock, 1000);
+  </script>
 
 </body>
 </html>
