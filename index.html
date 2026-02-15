@@ -4,3 +4,138 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CSS Analog Clock</title>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CSS Analog Clock</title>
+<style>
+  body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #1e1e1e;
+    font-family: sans-serif;
+  }
+
+  .clock {
+    width: 300px;
+    height: 300px;
+    border: 8px solid rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+    position: relative;
+    background: rgba(255, 255, 255, 0.05);
+    box-shadow: 0 0 30px rgba(0,0,0,0.5);
+  }
+
+  .hand {
+    width: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform-origin: 100%;
+    transform: rotate(90deg);
+    border-radius: 4px;
+  }
+
+  .hour {
+    height: 6px;
+    background: #fff;
+    animation: rotateHour 43200s linear infinite; /* 12 hours */
+  }
+
+  .minute {
+    height: 4px;
+    background: #ccc;
+    animation: rotateMinute 3600s linear infinite; /* 60 minutes */
+  }
+
+  .second {
+    height: 2px;
+    background: red;
+    animation: rotateSecond 60s linear infinite; /* 60 seconds */
+  }
+
+  .center {
+    width: 14px;
+    height: 14px;
+    background: #fff;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    z-index: 10;
+  }
+
+  /* Numbers */
+  .number {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    font-weight: bold;
+    color: rgba(255, 255, 255, 0.7);
+    transform: translate(-50%, -50%);
+    font-size: 1.1em;
+  }
+
+  /* Number positions */
+  .number1  { top: 20%; left: 50% + 40px; }
+  .number2  { top: 32%; left: 78%; }
+  .number3  { top: 50%; left: 88%; }
+  .number4  { top: 68%; left: 78%; }
+  .number5  { top: 80%; left: 50%; }
+  .number6  { top: 68%; left: 22%; }
+  .number7  { top: 50%; left: 12%; }
+  .number8  { top: 32%; left: 22%; }
+  .number9  { top: 12%; left: 50%; }
+  .number10 { top: 20%; left: 22%; }
+  .number11 { top: 32%; left: 78%; }
+  .number12 { top: 12%; left: 50%; }
+
+  /* Animations */
+  @keyframes rotateSecond {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  @keyframes rotateMinute {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  @keyframes rotateHour {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+</style>
+</head>
+<body>
+
+<div class="clock">
+  <div class="hand hour"></div>
+  <div class="hand minute"></div>
+  <div class="hand second"></div>
+  <div class="center"></div>
+
+  <div class="number number1">1</div>
+  <div class="number number2">2</div>
+  <div class="number number3">3</div>
+  <div class="number number4">4</div>
+  <div class="number number5">5</div>
+  <div class="number number6">6</div>
+  <div class="number number7">7</div>
+  <div class="number number8">8</div>
+  <div class="number number9">9</div>
+  <div class="number number10">10</div>
+  <div class="number number11">11</div>
+  <div class="number number12">12</div>
+</div>
+
+</body>
+</html>
